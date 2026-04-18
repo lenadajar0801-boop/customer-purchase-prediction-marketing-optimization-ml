@@ -128,7 +128,11 @@ To translate model results into business insights, a Tableau dashboard was creat
 - Majority of customers are non-buyers (86.87%)  
 - Opportunity exists to improve targeting strategies and increase conversion rate  
 
-**View Dashboard:**  
+## Tableau Dashboard
+
+![Customer Dashboard](Customer_Purchase_Prediction_Dashboard.png)
+
+**View Interactive Dashboard:**  
 https://public.tableau.com/views/CustomerPurchasePredictionDashboard/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link
 
 ---
