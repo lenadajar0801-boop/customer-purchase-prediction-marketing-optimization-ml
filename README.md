@@ -1,205 +1,226 @@
 # Customer Purchase Prediction & Marketing Optimization
 
 ## Project Overview
-This project focuses on predicting whether a customer will respond to a marketing campaign using machine learning techniques.
+This project predicts whether a customer will respond to a marketing campaign using machine learning.
 
-The objective is not only to build accurate models but also to evaluate their effectiveness in identifying potential buyers and improving marketing strategies.
+The focus is not only on model accuracy, but on evaluating performance in terms of business impact—specifically the ability to identify potential buyers and improve marketing efficiency.
 
 Three models were implemented and compared:
-
 - Logistic Regression (Baseline)
-- Random Forest Classifier
-- XGBoost Classifier (Advanced Model)
-
-The dataset includes customer demographics, purchasing behavior, and campaign interaction data.
+- Random Forest Classifier (Final Model)
+- XGBoost Classifier
 
 ---
 
 ## Objective
-To build a predictive model that identifies customers likely to respond to marketing campaigns, while evaluating performance based on business impact rather than accuracy alone.
+To build a predictive model that identifies customers likely to respond to marketing campaigns, while prioritizing recall and business value over accuracy alone.
 
 ---
 
 ## Dataset
-**Source:** https://www.kaggle.com/datasets/imakash3011/customer-personality-analysis  
+Source: https://www.kaggle.com/datasets/imakash3011/customer-personality-analysis  
+Dataset Used: `marketing_campaign.csv`
 
-**Dataset Used:** `marketing_campaign.csv`
-
-**Key Characteristics:**
-- ~2,240 customer records  
-- 29 features (before preprocessing)  
-- Mix of numerical and categorical variables  
-- Includes demographics, income, spending, and campaign responses  
-- Target variable: **Response (0 = No, 1 = Yes)**  
+Key Characteristics:
+- ~2,240 customer records
+- Original features: 29+
+- Final features used: 7 selected features
+- Target variable: `Response`
+  - 0 = No (Non-buyer)
+  - 1 = Yes (Buyer)
 
 ---
 
 ## Tools & Technologies
-- Python  
-- Pandas, NumPy  
-- Scikit-learn  
-- XGBoost  
-- Matplotlib, Seaborn  
-- Jupyter Notebook  
-- Tableau  
+- Python
+- Pandas, NumPy
+- Scikit-learn
+- XGBoost
+- Matplotlib, Seaborn
+- Jupyter Notebook
+- Tableau
 
 ---
 
 ## Data Preprocessing
 
-### Steps Performed
-- Handled missing values using median imputation  
-- Created new features:
-  - Age (from Year_Birth)  
-  - Total Spending  
-  - Total Purchases  
-- Dropped irrelevant columns:
-  - ID, Dt_Customer, Z_CostContact, Z_Revenue  
-- Applied one-hot encoding for categorical variables  
-- Split dataset into training (80%) and testing (20%)  
-- Applied feature scaling for Logistic Regression  
-
-### Explanation
-Feature engineering improves the model’s ability to capture customer behavior patterns, while encoding and scaling ensure compatibility with machine learning algorithms.
+Steps Performed:
+- Handled missing values using median imputation
+- Feature engineering:
+  - Age (from Year_Birth)
+  - Total Spending
+  - Total Purchases
+- Removed irrelevant columns:
+  - ID, Dt_Customer, Z_CostContact, Z_Revenue
+- Applied encoding for categorical variables
+- Train-test split (80/20)
 
 ---
 
-## Model
+## Feature Selection (36 → 7 Features)
 
-### Models Used
-- Logistic Regression  
-- Random Forest Classifier  
-- XGBoost Classifier  
+The feature set was reduced to 7 key predictors to improve model efficiency and reduce noise.
 
-### Steps Performed
-- Trained models using training data  
-- Generated predictions on test data  
-- Evaluated models using:
-  - Accuracy  
-  - Classification Report  
-  - Confusion Matrix  
-- Compared model performance  
+Reasons for reduction:
+- Remove redundant and low-impact variables
+- Reduce overfitting risk
+- Improve interpretability
+- Maintain performance with fewer inputs
+
+Key insight:
+The model maintained similar performance after feature reduction, indicating that a smaller, well-selected feature set is sufficient.
+
+---
+
+## Model Development
+
+Models Used:
+- Logistic Regression
+- Random Forest
+- XGBoost
+
+Evaluation Metrics:
+- Accuracy
+- Precision, Recall, F1-score
+- Confusion Matrix
 
 ---
 
 ## Results
 
-| Model | Accuracy |
-|------|----------|
-| Logistic Regression | ~0.873 |
-| Random Forest | ~0.864 |
-| XGBoost | ~0.873 |
+| Model               | Accuracy |
+|--------------------|---------|
+| Logistic Regression | ~0.86   |
+| Random Forest       | ~0.87   |
+| XGBoost             | ~0.86   |
 
-### Key Observation
-- Logistic Regression and XGBoost achieved similar performance  
-- Random Forest slightly underperformed  
+Random Forest achieved the best overall performance.
 
 ---
 
-## Visualization (Model Performance)
+## Confusion Matrix (Random Forest)
 
-### Confusion Matrix (XGBoost)
-- True Negatives: 366  
-- False Positives: 13  
-- False Negatives: 44  
-- True Positives: 25  
+|                | Predicted No | Predicted Yes |
+|----------------|-------------|--------------|
+| Actual No      | 372         | 9            |
+| Actual Yes     | 49          | 18           |
 
-### Interpretation
-- Strong performance in identifying non-buyers  
-- Weak performance in identifying actual buyers  
-- High false negatives indicate missed opportunities  
+---
+
+## Model Interpretation
+
+- Strong performance in identifying non-buyers
+- Weak performance in identifying actual buyers
+- High number of false negatives (49)
+
+This means many potential buyers were missed by the model.
+
+---
+
+## Key Insight
+
+Despite achieving ~87% accuracy, the model has low recall for buyers (~27%).
+
+This indicates:
+- Class imbalance in the dataset
+- Bias toward predicting non-buyers
+- Missed revenue opportunities
+
+Accuracy alone is not a reliable metric in this problem.
 
 ---
 
 ## Tableau Dashboard
 
-To translate model results into business insights, a Tableau dashboard was created.
+This dashboard presents the model’s predictions and translates them into actionable business insights for marketing optimization.
 
 ### Key Metrics
 - **Total Customers:** 2,240  
-- **Predictive Buyers:** 294  
+- **Predicted Buyers:** 294  
 - **Conversion Rate:** 13.13%  
 
-### Key Visual
-- Customer Distribution (Buyers vs Non-Buyers)
+### Interactive Dashboard
+[View Tableau Dashboard](https://public.tableau.com/views/CustomerPurchasePredictionDashboard/Dashboard1)
 
-### Key Insights
-- Conversion rate is low (13.13%), indicating untapped revenue potential  
-- Majority of customers are non-buyers (86.87%)  
-- Opportunity exists to improve targeting strategies and increase conversion rate  
+### Dashboard Preview
+![Dashboard Preview](./Customer_Purchase_Prediction_Dashboard.png)
 
-## Tableau Dashboard
-
-![Customer Dashboard](Customer_Purchase_Prediction_Dashboard.png)
-
-**View Interactive Dashboard:**  
-https://public.tableau.com/views/CustomerPurchasePredictionDashboard/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link
-
+### Insights
+- The majority of customers are predicted as non-buyers (~86.87%), indicating strong class imbalance.
+- The conversion rate is relatively low, suggesting untapped revenue opportunities.
+- The model is effective at identifying non-buyers but may miss potential buyers due to low recall.
+- Targeting high-probability customers can improve marketing efficiency and ROI.
+  
 ---
 
-## Interpretation
-Although overall accuracy is high (~87%), this metric is misleading due to class imbalance.
+## Business Value
 
-- The model performs well in predicting non-buyers  
-- It struggles to identify buyers (low recall ~35%)  
-- A significant number of potential buyers are not detected  
+This project demonstrates how machine learning can support marketing decisions:
+- Identify high-probability customers
+- Reduce unnecessary marketing costs
+- Improve campaign targeting
+- Increase ROI
 
-This highlights the importance of evaluating models using business-relevant metrics.
-
----
-
-## Insights
-- High accuracy does not guarantee business effectiveness  
-- Models are biased toward predicting non-buyers  
-- False negatives represent missed revenue opportunities  
-- Recall is more important than accuracy in marketing problems  
-- Class imbalance significantly impacts model performance  
-- Simpler models can perform competitively with advanced models  
-
----
-
-## Business Value & Application
-This project demonstrates how machine learning can support marketing decision-making:
-
-- Target high-probability customers  
-- Reduce unnecessary marketing costs  
-- Improve conversion rates  
-- Increase return on investment (ROI)  
-
-Improving recall can significantly enhance business impact by capturing more potential buyers.
+Improving recall can significantly increase business impact.
 
 ---
 
 ## Limitations
-- Imbalanced dataset  
-- Low recall for the positive class  
-- No hyperparameter tuning  
-- Limited feature engineering  
+
+- Imbalanced dataset
+- Low recall for buyers
+- No hyperparameter tuning
+- Limited feature engineering
 
 ---
 
 ## Future Improvements
-- Apply SMOTE or resampling techniques  
-- Perform hyperparameter tuning  
-- Optimize for recall or F1-score  
-- Explore advanced models (LightGBM, CatBoost)  
-- Implement cross-validation  
-- Enhance feature engineering  
-- Deploy model using Streamlit for real-time predictions  
+
+- Apply SMOTE or resampling techniques
+- Perform hyperparameter tuning
+- Optimize for recall or F1-score
+- Explore advanced models (LightGBM, CatBoost)
+- Improve feature engineering
+
+---
+
+## Deployment
+
+Predictions were generated using the Random Forest model.
+
+Each customer is assigned:
+- Predicted class (Buyer / Non-Buyer)
+- Probability score (`Prediction_Prob`)
+
+Outputs:
+- `final_with_predictions.csv`
+- `high_value_customers.csv`
+
+The dataset is integrated into Tableau for visualization and analysis.
+
+Current Status:
+- Batch prediction completed
+- Dashboard integration completed
+- Streamlit deployment in progress (for real-time predictions)
 
 ---
 
 ## Conclusion
-Logistic Regression and XGBoost delivered the best performance (~87% accuracy), while Random Forest slightly underperformed.
 
-Despite strong accuracy, all models struggled to identify potential buyers due to low recall, leading to missed revenue opportunities.
+Random Forest achieved the best performance (~87% accuracy), but all models struggled to identify buyers due to low recall.
 
-This project highlights the importance of aligning machine learning evaluation with business objectives.
+This highlights the importance of aligning model evaluation with business goals.
+
+Improving recall is critical to:
+- Capture more potential buyers
+- Increase revenue
+- Optimize marketing strategies
 
 ---
 
 ## Author
-**Allen Adajar**  
+
+Allen Adajar  
 Cost Accountant | Data Analyst | Aspiring Data Scientist  
 
 GitHub: https://github.com/lenadajar0801-boop
