@@ -143,7 +143,7 @@ This dashboard presents the model’s predictions and translates them into actio
 [View Tableau Dashboard](https://public.tableau.com/views/CustomerPurchasePredictionDashboard/Dashboard1)
 
 ### Dashboard Preview
-![Dashboard Preview](./Customer_Purchase_Prediction_Dashboard.png)
+![Dashboard Preview](./Customer_Purchase_Prediction_Dashboard2.png)
 
 ### Insights
 - The majority of customers are predicted as non-buyers (~86.87%), indicating strong class imbalance.
